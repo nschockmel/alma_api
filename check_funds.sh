@@ -35,7 +35,6 @@
 
 	echo "Thank you! The script is running and .txt files of results will appear in the directory in a few moments."
 
-
 head funds.txt | while read item
 do
 	# create mode variable for API parameter
@@ -78,8 +77,6 @@ do
 #	use logic for identifying funds with incompatible funding rules and expenditure/encumbrance combinations
 	change_rules=$(if [[ "$over_enc" = "NO" ]] && [[ "$sum_less_than_alloc" = "YES" ]]; then echo "YES"; else echo "NO"; fi)
 
-#	echo $fund"|"$expend"|"$alloc_bal"|"$encumb_bal"|"$exp_enc_sum"|"$sum_less_than_alloc"|"$over_enc
-
 	# write output to comma delimited file
 	echo -e "$fund\t$expend\t$fund_id\t$fund_code\t$alloc_bal\t$encumb_bal\t$exp_enc_sum\t$sum_less_than_alloc\t$over_enc\t$over_exp\t$change_rules"
 
@@ -93,6 +90,3 @@ awk '$11=="YES"' funds_check_results.txt > funds_check_filtered.txt
 
 # add header line to filtered output
 sed -i $'1 i\\\nfund_code_sent\texpend_from_fin_svc\tfund_id_returned\tfund_code_returned\tallocated_balance\tencumbered_balance\texp_plus_enc\tsum_less_than_alloc\tover_encumbrance_value\tover_expenditure_value\tchange_rules' funds_check_filtered.txt
-
-
-
