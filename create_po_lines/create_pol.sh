@@ -32,7 +32,7 @@ do
 	poststring="https://api-na.hosted.exlibrisgroup.com/almaws/v1/acq/po-lines"
 
 	#send updated xml to Alma web service as a POST to create POLs and save result as a variable
-#	result=$(curl -X POST -H "Authorization: apikey $(cat acq_prod_apikey.txt)" -H "Content-Type: application/xml" --data "${xmldoc}" $poststring)
+	result=$(curl -X POST -H "Authorization: apikey $(cat acq_prod_apikey.txt)" -H "Content-Type: application/xml" --data "${xmldoc}" $poststring)
 
 	# extract PO-Line reference for newly created PO-Line
 	pol_ref=$(echo "$result" | xmlstarlet sel -T -t -m '//po_line/number' -v '.')
