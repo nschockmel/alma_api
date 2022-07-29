@@ -12,7 +12,6 @@
 #	NOTE: a root node "<records>" will need to be added to xml file later to make it valid. This is a kluge that should be fixed later.
 # 9. Removes the <?xml version="1.0"> tag
 
-
 cat west_ids.csv | while read item
 do
 	# use sed to separate .csv file into fields and declare variables
@@ -56,4 +55,3 @@ done   >  west_recs_test.xml
 
 # remove version and encoding
 perl -p -e 's/<\?xml version="1.0"\?>//g' west_recs.xml > west_recs_clean.xml
-
