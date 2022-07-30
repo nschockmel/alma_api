@@ -1,12 +1,13 @@
 #!bin/bash
 
 #######################################################################################################################
-# This script can be used to update alma electronic collection internal descriptions (notes) with
-# new notes in batch. The script does roughly the following:
+# This script can be used to update alma electronic collection internal descriptions (notes) with new notes in batch. 
+#
+# The script does roughly the following:
 # 1. loops through a txt file of collection id/note pairs
-# 2. uses the vlaues in the coll_id column to make get calls to the alma api and retreive the e-collection xml object
+# 2. uses the values in the coll_id column to make get calls to the alma api and retreive the e-collection xml object
 # 3. updates the internal_description field with the information from the "note" column
-# 4. makes put calls to send the updated e-collection objects back to the alm api
+# 4. makes put calls to send the updated e-collection objects back to the alma api
 # 5. creates a txt of coll_id pairs for verification that the put call was successful
 #
 # BEWARE: the put calls will replace the "modification date" and "modified by" fields in the e-collection record with 
