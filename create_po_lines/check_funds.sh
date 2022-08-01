@@ -11,7 +11,7 @@
 # 4. returns a .txt file of funds that have have a value of "YES" in the $change_rules variable (funds_check_filtered.txt)
 
 # in the future (if Libraries financial services gives the okay) this script should be adjusted to use the fund_id to make additional PUT calls to change the over_encumbrance rule
-# value to "NO_LIMIT" to allow for PO line creation. After PO line creation, another script can be used to set the  over_encumbrance rule back to "NO"
+# value to "NO_LIMIT" to allow for PO line creation. After PO line creation, another script can be used to set the over_encumbrance rule back to "NO"
 ########################################################################################################################################################################################
 
 	# get the number of records in the .txt file containing IDs for the API calls
