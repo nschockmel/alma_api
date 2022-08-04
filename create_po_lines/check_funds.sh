@@ -78,7 +78,7 @@ do
 #	use logic for identifying funds with incompatible funding rules and expenditure/encumbrance combinations
 	change_rules=$(if [[ "$over_enc" = "NO" ]] && [[ "$sum_less_than_alloc" = "YES" ]]; then echo "YES"; else echo "NO"; fi)
 
-	# write output to comma delimited file
+	# write output to a tab delimited file
 	echo -e "$fund\t$expend\t$fund_id\t$fund_code\t$alloc_bal\t$encumb_bal\t$exp_enc_sum\t$sum_less_than_alloc\t$over_enc\t$over_exp\t$change_rules"
 
 	done > funds_check_results.txt
