@@ -15,7 +15,7 @@
 
 cat west_ids.csv | while read item
 do
-	# use sed to separate .csv file into fields and declare variables
+	# separate .csv file into fields and declare variables
 	mms_id="$(cut -d',' -f1 <<<$item)"
 	holding_id="$(cut -d',' -f2 <<<$item)"
 

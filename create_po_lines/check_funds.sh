@@ -5,13 +5,13 @@
 # this step is necessary before creating PO lines because some funding amounts and fund rules will cause the fund to fail to create a  PO line
 
 # this script:
-# 1. takes a file of fund codes (funds.txt) and makes API GET calls to verifie the funding rules and expenditure/encumbrances for a given fund
+# 1. takes a file of fund codes (funds.txt) and makes API GET calls to verify the funding rules and expenditure/encumbrances for a given fund
 # 2. identifies funds that have a value other than "NO" for the over_encumbrance element AND where the (expends + encumbrances) > allocated balance ($change_rules)
 # 3. returns a .txt file of all funds returned by the get calls (funds_check_results.txt)
 # 4. returns a .txt file of funds that have have a value of "YES" in the $change_rules variable (funds_check_filtered.txt)
 
 # in the future (if Libraries financial services gives the okay) this script should be adjusted to use the fund_id to make additional PUT calls to change the over_encumbrance rule
-# value to "NO_LIMIT" to allow for PO line creation. After PO line creation, another script can be used to set the  over_encumbrance rule back to "NO"
+# value to "NO_LIMIT" to allow for PO line creation. After PO line creation, another script can be used to set the over_encumbrance rule back to "NO"
 ########################################################################################################################################################################################
 
 	# get the number of records in the .txt file containing IDs for the API calls
@@ -78,9 +78,7 @@ do
 #	use logic for identifying funds with incompatible funding rules and expenditure/encumbrance combinations
 	change_rules=$(if [[ "$over_enc" = "NO" ]] && [[ "$sum_less_than_alloc" = "YES" ]]; then echo "YES"; else echo "NO"; fi)
 
-#	echo $fund"|"$expend"|"$alloc_bal"|"$encumb_bal"|"$exp_enc_sum"|"$sum_less_than_alloc"|"$over_enc
-
-	# write output to comma delimited file
+	# write output to a tab delimited file
 	echo -e "$fund\t$expend\t$fund_id\t$fund_code\t$alloc_bal\t$encumb_bal\t$exp_enc_sum\t$sum_less_than_alloc\t$over_enc\t$over_exp\t$change_rules"
 
 	done > funds_check_results.txt

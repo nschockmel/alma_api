@@ -6,7 +6,6 @@
 # 2. File_revised_note.xml is an XML template for the PO Line object
 # 3. The script iterates through the file, populates the needed values in the XML object and then sends POST requests to create PO Lines
 # 4. The results of the API requests are stored in a txt file (results.txt)
-# 5. The code for the POST request has been commented out for safety to prevent accidentally creating extraneous PO Lines; uncomment it to run in the future
 
 cat funds.txt | while read item
 do
@@ -51,5 +50,5 @@ do
 
 done >> results.txt
 
-# add header row to results.txt (by using sed to insert a new line in the file with tab separated values)
+# add header row to results.txt 
 sed -i $'1 i\\\nfund\tamount\tnote\tpol_ref\tpol_fund\tpol_mms\tpol_status' results.txt
