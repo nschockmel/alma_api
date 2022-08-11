@@ -1,0 +1,58 @@
+#!bin/bash
+
+###################################################################################
+# this script takes a .txt file of po-line identifiers and updated receiving notes
+# and uses the alma api to update the po-lines with new receving notes
+###################################################################################
+
+# declare number of records to be updated
+recs=$(cat 'pols_update.txt' | wc -l)
+
+# declare alma environment
+alma_env="PRODUCTION"
+
+# get date
+date=`date +%Y-%m-%d`
+
+	# indicate number of records being updated in which alma environment and confirm whether program should proceed
+	read -p "This will use the Alma API to MODIFY ${recs} PO-Line records in the ${alma_env} instance. THIS CANNOT BE UNDONE. Press Y if you wish to continue, otherwise press any other key to exit the program" -n 1 -r
+	echo -e "\n"
+	if [[ ! $REPLY =~ ^[Yy]$ ]]
+	then
+		exit 1
+	fi
+
+	echo "Thank you! The script is running. A .txt file of results will appear in this directory when the script is finished (Note: large files might take hours to run)."
+
+cat pols_update.txt | while read item
+do
+
+	# assign columns to variables (using ^ as delimiter to avoid comma delimited headaches with note fields)
+	pol_id="$(cut -d'^' -f1 <<<$item)"
+	new_note="$(cut -d'^' -f2  <<<$item)"
+
+	# create  url for our API get call
+	getstring="https://api-na.hosted.exlibrisgroup.com/almaws/v1/acq/po-lines/${pol_id}"
+
+	# make get call to retrieve po-line object
+	pol_obj=$(curl -s -H "Authorization: apikey $(cat acq_prod_apikey.txt)" -H "Accept: application/xml" -X GET $getstring)
+
+	# check receiving note
+	pol_rcv_note=$(echo $pol_obj | xmlstarlet sel -T -t -m '/po_line/receiving_note' -v '.')
+
+	# edit the receiving note
+	pol_obj=$(echo $pol_obj | xmlstarlet ed -u '/po_line/receiving_note' -v "${new_note}")
+
+	# send the edited pol object back to alma via put request and save response
+	updated_pol_obj=$(curl -s -H "Authorization: apikey $(cat acq_prod_apikey.txt)" -H "Content-Type: application/xml" -X PUT --data "${pol_obj}" $getstring)
+
+	#extract new receiving note data from the response
+	updated_rcv_note=$(echo $updated_pol_obj | xmlstarlet sel  -T -t -m '/po_line/receiving_note' -v '.')
+
+	# write results to tab delimited output
+	echo -e "$pol_id\t$pol_rcv_note\t$updated_rcv_note"
+
+done > update_results_$date.txt
+
+# add header row for results
+sed -i $'1 i\\\npol_number\told_receiving_note\tnew_receiving_note' update_results_$date.txt
