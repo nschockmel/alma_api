@@ -36,7 +36,7 @@
 	echo "Thank you! The script is running and .txt files of results will appear in the directory in a few moments."
 
 
-head funds.txt | while read item
+cat funds.txt | while read item
 do
 	# create mode variable for API parameter
 	mode="ALL"
