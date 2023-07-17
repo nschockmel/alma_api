@@ -34,7 +34,7 @@ do
 	# create  url for our API get call
 	getstring="https://api-na.hosted.exlibrisgroup.com/almaws/v1/acq/po-lines/${pol_id}"
 
-	# make get call to retrieve po-line object
+	# make get call to retrieve pol object
 	pol_obj=$(curl -s -H "Authorization: apikey $(cat acq_prod_apikey.txt)" -H "Accept: application/xml" -X GET $getstring)
 
 	# check receiving note
